@@ -107,10 +107,18 @@ class IMP implements MouseListener{
             @Override
           public void actionPerformed(ActionEvent evt){rotate();}
            });
+
+      JMenuItem GSItem = new JMenuItem("GreyScale");
+    
+     GSItem.addActionListener(new ActionListener(){
+            @Override
+          public void actionPerformed(ActionEvent evt){greyscale();}
+           });
    
        
       fun.add(firstItem);
       fun.add(rotateItem);
+      fun.add(GSItem);
 
      
       return fun;   
@@ -286,6 +294,25 @@ class IMP implements MouseListener{
       width = height;
       height = temp;
       picture = rotatedpic;
+      resetPicture();
+  }
+
+  private void greyscale()
+  {
+      for(int i=0; i<height; i++)
+         for(int j=0; j<width; j++)
+         {   
+          int rgbArray[] = new int[4];
+         
+          //get three ints for R, G and B
+          rgbArray = getPixelArray(picture[i][j]);
+
+            rgbArray[1] = (int)((rgbArray[1] * 0.21)+(rgbArray[2] * 0.72)+(rgbArray[3] * 0.07));
+            rgbArray[2] = (int)((rgbArray[1] * 0.21)+(rgbArray[2] * 0.72)+(rgbArray[3] * 0.07));
+            rgbArray[3] = (int)((rgbArray[1] * 0.21)+(rgbArray[2] * 0.72)+(rgbArray[3] * 0.07));
+
+            picture[i][j] = getPixels(rgbArray);
+         }
       resetPicture();
   }
   
