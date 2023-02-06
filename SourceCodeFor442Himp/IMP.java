@@ -115,10 +115,18 @@ class IMP implements MouseListener{
           public void actionPerformed(ActionEvent evt){greyscale();}
            });
    
-       
+      JMenuItem BlurItem = new JMenuItem("Blur");
+    
+     BlurItem.addActionListener(new ActionListener(){
+            @Override
+          public void actionPerformed(ActionEvent evt){blur();}
+           });
+   
+           
       fun.add(firstItem);
       fun.add(rotateItem);
       fun.add(GSItem);
+      fun.add(BlurItem);
 
      
       return fun;   
@@ -314,6 +322,33 @@ class IMP implements MouseListener{
             picture[i][j] = getPixels(rgbArray);
          }
       resetPicture();
+  }
+
+  private void blur()
+  {
+      greyscale();
+
+      int blurpic[][] = new int[height][width];
+      for(int i=0; i<height; i++)
+         for(int j=0; j<width; j++)
+         {
+            if((height-1)>i && i>0)
+            {
+               if((width-1)>j && j>0)
+               {
+                  blurpic[i][j] = (picture[i-1][j-1]+picture[i-1][j]+picture[i-1][j+1]+picture[i][j-1]+picture[i][j+1]+picture[i+1][j-1]+picture[i+1][j]+picture[i+1][j+1])/8;
+               }
+            }
+         }
+
+      for(int i=0; i<height; i++)
+         for(int j=0; j<width; j++)
+         {
+            picture[i][j] = blurpic[i][j];
+         }
+
+      resetPicture();
+      
   }
   
 
