@@ -336,7 +336,48 @@ class IMP implements MouseListener{
             {
                if((width-1)>j && j>0)
                {
-                  blurpic[i][j] = (picture[i-1][j-1]+picture[i-1][j]+picture[i-1][j+1]+picture[i][j-1]+picture[i][j+1]+picture[i+1][j-1]+picture[i+1][j]+picture[i+1][j+1])/8;
+                  int blurred[] = new int[4];
+                  int rgbArray[] = new int[4];
+         
+                  rgbArray = getPixelArray(picture[i-1][j-1]);
+                  blurred[0] = rgbArray[0];
+                  blurred[1] = blurred[1] + rgbArray[1];
+                  blurred[2] = blurred[2] + rgbArray[2];
+                  blurred[3] = blurred[3] + rgbArray[3];
+                  rgbArray = getPixelArray(picture[i-1][j]);
+                  blurred[1] = blurred[1] + rgbArray[1];
+                  blurred[2] = blurred[2] + rgbArray[2];
+                  blurred[3] = blurred[3] + rgbArray[3];
+                  rgbArray = getPixelArray(picture[i-1][j+1]);
+                  blurred[1] = blurred[1] + rgbArray[1];
+                  blurred[2] = blurred[2] + rgbArray[2];
+                  blurred[3] = blurred[3] + rgbArray[3];
+                  rgbArray = getPixelArray(picture[i][j-1]);
+                  blurred[1] = blurred[1] + rgbArray[1];
+                  blurred[2] = blurred[2] + rgbArray[2];
+                  blurred[3] = blurred[3] + rgbArray[3];
+                  rgbArray = getPixelArray(picture[i][j+1]);
+                  blurred[1] = blurred[1] + rgbArray[1];
+                  blurred[2] = blurred[2] + rgbArray[2];
+                  blurred[3] = blurred[3] + rgbArray[3];
+                  rgbArray = getPixelArray(picture[i+1][j-1]);
+                  blurred[1] = blurred[1] + rgbArray[1];
+                  blurred[2] = blurred[2] + rgbArray[2];
+                  blurred[3] = blurred[3] + rgbArray[3];
+                  rgbArray = getPixelArray(picture[i+1][j]);
+                  blurred[1] = blurred[1] + rgbArray[1];
+                  blurred[2] = blurred[2] + rgbArray[2];
+                  blurred[3] = blurred[3] + rgbArray[3];
+                  rgbArray = getPixelArray(picture[i+1][j+1]);
+                  blurred[1] = blurred[1] + rgbArray[1];
+                  blurred[2] = blurred[2] + rgbArray[2];
+                  blurred[3] = blurred[3] + rgbArray[3];
+
+                  blurred[1] = blurred[1]/8;
+                  blurred[2] = blurred[2]/8;
+                  blurred[3] = blurred[3]/8;
+
+                  blurpic[i][j] = getPixels(blurred);
                }
             }
          }
