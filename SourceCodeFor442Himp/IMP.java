@@ -15,6 +15,9 @@ class IMP implements MouseListener{
    JFrame frame;
    JPanel mp;
    JButton start;
+   MyPanel redPanel;
+   MyPanel greenPanel;
+   MyPanel bluePanel;
    JScrollPane scroll;
    JMenuItem openItem, exitItem, resetItem;
    Toolkit toolkit;
@@ -77,7 +80,11 @@ class IMP implements MouseListener{
       start.setEnabled(false);
       start.addActionListener(new ActionListener(){
             @Override
-          public void actionPerformed(ActionEvent evt){ fun1(); }
+          public void actionPerformed(ActionEvent evt){ 
+            redPanel.drawing();
+            greenPanel.drawing();
+            bluePanel.drawing();
+           }
            });
       butPanel.add(start);
       frame.getContentPane().add(butPanel, BorderLayout.SOUTH);
@@ -503,12 +510,9 @@ class IMP implements MouseListener{
       JFrame blueFrame = new JFrame("blue");
       blueFrame.setSize(305, 600);
       blueFrame.setLocation(1450, 0);
-      MyPanel redPanel = new MyPanel(red);
-      MyPanel greenPanel = new MyPanel(green);
-      MyPanel bluePanel = new MyPanel(blue);
-      redPanel.drawing();
-      greenPanel.drawing();
-      bluePanel.drawing();
+      redPanel = new MyPanel(red);
+      greenPanel = new MyPanel(green);
+      bluePanel = new MyPanel(blue);
       redFrame.getContentPane().add(redPanel, BorderLayout.CENTER);
       redFrame.setVisible(true);
       greenFrame.getContentPane().add(greenPanel, BorderLayout.CENTER);

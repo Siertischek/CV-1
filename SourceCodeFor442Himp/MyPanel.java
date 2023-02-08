@@ -40,7 +40,6 @@ int colors[];
      }
     public void drawing()
     {
-        gc.drawLine(startX, startY, endX, endY);
         for(int i = 0; i<255; i++)
         {
             gc.drawLine(i, 0, i+1, colors[i]);
