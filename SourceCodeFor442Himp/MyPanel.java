@@ -8,12 +8,14 @@ public class MyPanel extends JPanel
 {
  
 int startX, flag, startY, endX, endY;
+int colors[];
 
     BufferedImage grid;
     Graphics2D gc;
 
-	public MyPanel()
+	public MyPanel(int color[])
 	{
+        colors = color;
 	   startX = startY = 0;
            endX = endY = 100;
  	}
@@ -38,8 +40,11 @@ int startX, flag, startY, endX, endY;
      }
     public void drawing()
     {
-        
         gc.drawLine(startX, startY, endX, endY);
+        for(int i = 0; i<255; i++)
+        {
+            gc.drawLine(i, 0, i+1, colors[i]);
+        }
         repaint();
     }
    

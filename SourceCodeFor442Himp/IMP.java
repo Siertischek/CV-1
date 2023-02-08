@@ -121,12 +121,28 @@ class IMP implements MouseListener{
             @Override
           public void actionPerformed(ActionEvent evt){blur();}
            });
+
+      JMenuItem EdgeItem = new JMenuItem("Edge");
+    
+     EdgeItem.addActionListener(new ActionListener(){
+            @Override
+          public void actionPerformed(ActionEvent evt){edge();}
+           });
+
+      JMenuItem HistoItem = new JMenuItem("Histogram");
+    
+     HistoItem.addActionListener(new ActionListener(){
+            @Override
+          public void actionPerformed(ActionEvent evt){histogram();}
+           });
    
            
       fun.add(firstItem);
       fun.add(rotateItem);
       fun.add(GSItem);
       fun.add(BlurItem);
+      fun.add(EdgeItem);
+      fun.add(HistoItem);
 
      
       return fun;   
@@ -391,8 +407,116 @@ class IMP implements MouseListener{
       resetPicture();
       
   }
-  
 
+  private void edge()
+  {
+      greyscale();
+
+      int bw[][] = new int[height][width];
+      for(int i=0; i<height; i++)
+         for(int j=0; j<width; j++)
+         {
+            int mask = 0;
+            if((height-2)>i && i>1)
+            {
+               if((width-2)>j && j>1)                           
+               {
+                  mask = mask + picture[i-2][j-2]*-1;
+                  mask = mask + picture[i-2][j-1]*-1;
+                  mask = mask + picture[i-2][j]*-1;
+                  mask = mask + picture[i-2][j+1]*-1;
+                  mask = mask + picture[i-2][j+2]*-1;
+
+                  mask = mask + picture[i-1][j-2]*-1;
+                  mask = mask + picture[i-1][j-1];
+                  mask = mask + picture[i-1][j];
+                  mask = mask + picture[i-1][j+1];
+                  mask = mask + picture[i-1][j+2]*-1;
+
+                  mask = mask + picture[i][j-2]*-1;
+                  mask = mask + picture[i][j-1];
+                  mask = mask + picture[i][j]*16;
+                  mask = mask + picture[i][j+1];
+                  mask = mask + picture[i][j+2]*-1;
+
+                  mask = mask + picture[i+1][j-2]*-1;
+                  mask = mask + picture[i+1][j-1];
+                  mask = mask + picture[i+1][j];
+                  mask = mask + picture[i+1][j+1];
+                  mask = mask + picture[i+1][j+2]*-1;
+
+                  mask = mask + picture[i+2][j-2]*-1;
+                  mask = mask + picture[i+2][j-1]*-1;
+                  mask = mask + picture[i+2][j]*-1;
+                  mask = mask + picture[i+2][j+1]*-1;
+                  mask = mask + picture[i+2][j+2]*-1;
+
+                  
+               }
+            }
+
+
+            if(mask > 100)
+            {
+               int white[] = {255,255,255,255};
+               bw[i][j] = getPixels(white);
+            }
+            else
+            {
+               int black[] = {0,0,0,0};
+               bw[i][j] = getPixels(black);
+            }
+         }
+
+      for(int i=0; i<height; i++)
+         for(int j=0; j<width; j++)
+         {
+            picture[i][j] = bw[i][j];
+         }
+
+      resetPicture();
+  }
+  
+  private void histogram()
+  {
+      int red[] = new int[256];
+      int green[] = new int[256];
+      int blue[] = new int[256];
+      for(int i=0; i<height; i++)
+         for(int j=0; j<width; j++)
+         {
+            int rgbArray[] = new int[4];
+         
+            rgbArray = getPixelArray(picture[i][j]);
+
+            red[rgbArray[1]]+=1;
+            green[rgbArray[2]]+=1;
+            blue[rgbArray[3]]+=1;
+         }
+
+      JFrame redFrame = new JFrame("Red");
+      redFrame.setSize(305, 600);
+      redFrame.setLocation(800, 0);
+      JFrame greenFrame = new JFrame("Green");
+      greenFrame.setSize(305, 600);
+      greenFrame.setLocation(1150, 0);
+      JFrame blueFrame = new JFrame("blue");
+      blueFrame.setSize(305, 600);
+      blueFrame.setLocation(1450, 0);
+      MyPanel redPanel = new MyPanel(red);
+      MyPanel greenPanel = new MyPanel(green);
+      MyPanel bluePanel = new MyPanel(blue);
+      redPanel.drawing();
+      greenPanel.drawing();
+      bluePanel.drawing();
+      redFrame.getContentPane().add(redPanel, BorderLayout.CENTER);
+      redFrame.setVisible(true);
+      greenFrame.getContentPane().add(greenPanel, BorderLayout.CENTER);
+      greenFrame.setVisible(true);
+      blueFrame.getContentPane().add(bluePanel, BorderLayout.CENTER);
+      blueFrame.setVisible(true);
+         start.setEnabled(true);
+  }
   
   
   private void quit()
