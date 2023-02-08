@@ -489,6 +489,7 @@ class IMP implements MouseListener{
       int red[] = new int[256];
       int green[] = new int[256];
       int blue[] = new int[256];
+      int max = 0;
       for(int i=0; i<height; i++)
          for(int j=0; j<width; j++)
          {
@@ -500,7 +501,22 @@ class IMP implements MouseListener{
             green[rgbArray[2]]+=1;
             blue[rgbArray[3]]+=1;
          }
-
+      
+      for(int c = 0; c < 255; c++)
+      {
+         if(red[c] > max)
+         {
+            max = red[c];
+         }
+         if(green[c] > max)
+         {
+            max = green[c];
+         }
+         if(blue[c] > max)
+         {
+            max = blue[c];
+         }
+      }
       JFrame redFrame = new JFrame("Red");
       redFrame.setSize(305, 600);
       redFrame.setLocation(800, 0);
@@ -510,9 +526,9 @@ class IMP implements MouseListener{
       JFrame blueFrame = new JFrame("blue");
       blueFrame.setSize(305, 600);
       blueFrame.setLocation(1450, 0);
-      redPanel = new MyPanel(red);
-      greenPanel = new MyPanel(green);
-      bluePanel = new MyPanel(blue);
+      redPanel = new MyPanel(red,max);
+      greenPanel = new MyPanel(green,max);
+      bluePanel = new MyPanel(blue,max);
       redFrame.getContentPane().add(redPanel, BorderLayout.CENTER);
       redFrame.setVisible(true);
       greenFrame.getContentPane().add(greenPanel, BorderLayout.CENTER);

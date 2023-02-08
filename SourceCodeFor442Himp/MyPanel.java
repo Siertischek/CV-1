@@ -9,15 +9,17 @@ public class MyPanel extends JPanel
  
 int startX, flag, startY, endX, endY;
 int colors[];
+int max;
 
     BufferedImage grid;
     Graphics2D gc;
 
-	public MyPanel(int color[])
+	public MyPanel(int color[], int maxnum)
 	{
         colors = color;
 	   startX = startY = 0;
            endX = endY = 100;
+        max = maxnum;
  	}
 
      public void clear()
@@ -42,7 +44,7 @@ int colors[];
     {
         for(int i = 0; i<255; i++)
         {
-            gc.drawLine(i, 0, i+1, colors[i]);
+            gc.drawLine(i, 600-(colors[i])/(max/650), i, 600);
         }
         repaint();
     }
