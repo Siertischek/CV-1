@@ -234,6 +234,8 @@ class IMP implements MouseListener{
         for(int i = 0; i<width*height; i++)
              pixels[i] = results[i]; 
        Image img2 = toolkit.createImage(new MemoryImageSource(width, height, pixels, 0, width)); 
+       turnTwoDimensional();
+       resetPicture();
 
       JLabel label2 = new JLabel(new ImageIcon(img2));    
        mp.removeAll();
@@ -472,7 +474,7 @@ class IMP implements MouseListener{
             }
 
 
-            if(mask > 50)
+            if(mask > 25)
             {
                int white[] = {255,255,255,255};
                bw[i][j] = getPixels(white);
