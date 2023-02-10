@@ -142,6 +142,14 @@ class IMP implements MouseListener{
             @Override
           public void actionPerformed(ActionEvent evt){histogram();}
            });
+
+      JMenuItem EqualItem = new JMenuItem("Equalize");
+    
+     EqualItem.addActionListener(new ActionListener(){
+            @Override
+          public void actionPerformed(ActionEvent evt){equalization();}
+           });
+           
    
            
       fun.add(firstItem);
@@ -150,6 +158,7 @@ class IMP implements MouseListener{
       fun.add(BlurItem);
       fun.add(EdgeItem);
       fun.add(HistoItem);
+      fun.add(EqualItem);
 
      
       return fun;   
@@ -463,7 +472,7 @@ class IMP implements MouseListener{
             }
 
 
-            if(mask > 100)
+            if(mask > 50)
             {
                int white[] = {255,255,255,255};
                bw[i][j] = getPixels(white);
@@ -536,6 +545,58 @@ class IMP implements MouseListener{
       blueFrame.getContentPane().add(bluePanel, BorderLayout.CENTER);
       blueFrame.setVisible(true);
          start.setEnabled(true);
+  }
+
+  private void equalization()
+  {
+      int red[] = new int[256];
+      int green[] = new int[256];
+      int blue[] = new int[256];
+      int redsum = 0;
+      int greensum = 0;
+      int bluesum = 0;
+      for(int i=0; i<height; i++)
+         for(int j=0; j<width; j++)
+         {
+            int rgbArray[] = new int[4];
+         
+            rgbArray = getPixelArray(picture[i][j]);
+
+            red[rgbArray[1]]+=1;
+            green[rgbArray[2]]+=1;
+            blue[rgbArray[3]]+=1;
+         }
+
+      for(int i=0; i<height; i++)
+         for(int j=0; j<width; j++)
+         {
+            int rgbArray[] = new int[4];
+         
+            rgbArray = getPixelArray(picture[i][j]);
+
+            redsum = 0;
+            greensum = 0;
+            bluesum = 0;
+
+            for(int c = 0; c < rgbArray[1]; c++)
+            {
+               redsum = redsum + red[c];
+            }
+            for(int c = 0; c < rgbArray[2]; c++)
+            {
+               greensum = greensum + green[c];
+            }
+            for(int c = 0; c < rgbArray[3]; c++)
+            {
+               bluesum = bluesum + blue[c];
+            }
+
+            int colors[] = {rgbArray[0],Math.round(((255*redsum-1)/((height*width)-1))),Math.round(((255*greensum-1)/((height*width)-1))),Math.round(((255*bluesum-1)/((height*width)-1)))};
+
+            picture[i][j] = getPixels(colors);
+         }
+
+      resetPicture();
   }
   
   
