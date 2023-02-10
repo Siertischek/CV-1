@@ -337,6 +337,8 @@ class IMP implements MouseListener{
       height = temp;
       picture = rotatedpic;
       resetPicture();
+      height = width;
+      width = temp;
   }
 
   private void greyscale()
